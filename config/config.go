@@ -41,9 +41,9 @@ func Setup(cfgFile, watch, sourceConfig, targetFile, targetPackage string, tags 
 	cliConfigMap := make(map[string]interface{})
 	switch watch {
 	case "true":
-		cliConfigMap["watch"] = true
+		cliConfigMap["watch"] = "true"
 	case "false":
-		cliConfigMap["watch"] = false
+		cliConfigMap["watch"] = "false"
 	}
 	if sourceConfig != "" {
 		cliConfigMap["source_config"] = sourceConfig

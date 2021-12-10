@@ -137,6 +137,7 @@ func (c *Converter) Convert(pkg, dst string) error {
 		zapx.Error("create target file failed", zap.Error(err))
 		return err
 	}
+	defer tfile.Close() // nolint:errcheck
 
 	if _, err := tfile.Write([]byte(notice)); err != nil {
 		zapx.Error("write codes to target file failed", zap.Error(err))

@@ -32,6 +32,10 @@ func (m *MapParser) ParseToNodeTree() (*Node, error) {
 
 func (m *MapParser) parse(root *Node) (err error) {
 	for k := range m.Data {
+		// no value. set default value as string("")
+		if m.Data[k] == nil {
+			m.Data[k] = ""
+		}
 		vt := reflect.TypeOf(m.Data[k]).Kind()
 
 		tag := k
