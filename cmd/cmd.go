@@ -1,6 +1,11 @@
 package cmd
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/xylonx/config2go/config"
@@ -39,7 +44,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "./config.default.yaml", "specify config file path")
 
 	// the config related flags
-	rootCmd.Flags().StringVarP(&watch, "watch", "w", "", "whether listening file change event")
+	rootCmd.Flags().StringVarP(&watch, "watch", "w", "true", "whether listening file change event")
 	rootCmd.Flags().StringVarP(&sourceConfig, "source", "s", "", "the source config file to be convert")
 	rootCmd.Flags().StringVarP(&targetFile, "target", "t", "config/setting.go", "the generated target go file containing struct")
 	rootCmd.Flags().StringVarP(&targetPackage, "package", "p", "", "the go package name of the generated target go file")
@@ -58,6 +63,30 @@ func run() (err error) {
 		return err
 	}
 
+	if config.Config.Watch != "true" {
+		if err = generateGoStruct(v); err != nil {
+			return err
+		}
+		return nil
+	}
+
+	v.OnConfigChange(func(in fsnotify.Event) {
+		if err = generateGoStruct(v); err != nil {
+			return
+		}
+	})
+	v.WatchConfig()
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, syscall.SIGTERM)
+	<-sig
+
+	zapx.Info("stop config2go.")
+
+	return nil
+}
+
+func generateGoStruct(v *viper.Viper) error {
 	data := make(map[string]interface{})
 	if err := v.Unmarshal(&data); err != nil {
 		zapx.Error("unmarshal source config file failed", zap.Error(err))
@@ -71,5 +100,6 @@ func run() (err error) {
 		return err
 	}
 
+	zapx.Info("genereate go struct successfully")
 	return nil
 }

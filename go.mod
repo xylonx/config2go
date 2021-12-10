@@ -3,6 +3,7 @@ module github.com/xylonx/config2go
 go 1.17
 
 require (
+	github.com/fsnotify/fsnotify v1.4.9
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.8.1
 	github.com/xylonx/zapx v0.2.0
@@ -11,7 +12,6 @@ require (
 
 require (
 	github.com/SkyAPM/go2sky v1.2.0 // indirect
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
