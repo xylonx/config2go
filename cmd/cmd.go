@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"github.com/xylonx/config2go/config"
 	"github.com/xylonx/config2go/converter"
 	"github.com/xylonx/zapx"
+	"go.uber.org/zap"
 )
 
 var rootCmd = &cobra.Command{
@@ -49,15 +51,25 @@ func Execute() error {
 }
 
 func run() (err error) {
-	err = converter.ConvertConfigFile(
-		config.Config.SourceConfig,
-		config.Config.TargetFile,
-		config.Config.TargetPackage,
-		config.Config.Tags,
-	)
-	if err != nil {
-		zapx.Info("convert config file failed")
-		return
+	v := viper.New()
+	v.SetConfigFile(config.Config.SourceConfig)
+	if err := v.ReadInConfig(); err != nil {
+		zapx.Error("read source config file failed", zap.Error(err))
+		return err
 	}
-	return
+
+	data := make(map[string]interface{})
+	if err := v.Unmarshal(&data); err != nil {
+		zapx.Error("unmarshal source config file failed", zap.Error(err))
+		return err
+	}
+
+	parser := converter.NewMapParser(data)
+	converter := converter.NewConverter(parser, converter.AppendAllFields(config.Config.Tags))
+
+	if err := converter.Convert(config.Config.TargetPackage, config.Config.TargetFile); err != nil {
+		return err
+	}
+
+	return nil
 }
