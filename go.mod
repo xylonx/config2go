@@ -1,4 +1,4 @@
-module github.com/xylonx/go-template
+module github.com/xylonx/config2go
 
 go 1.17
 

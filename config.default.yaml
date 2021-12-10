@@ -1,0 +1,5 @@
+watch: true
+source_config: config.yaml
+target_file: configs/config.go
+target_package: config
+tag: json
