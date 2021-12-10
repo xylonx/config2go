@@ -1,0 +1,27 @@
+application:
+  host: 0.0.0.0
+  port: 8080
+  read_timeout: 5
+  write_timeout: 5
+
+users:
+  - username: Alice
+    password: p@ssw0rd
+  - username: Bob
+    password: P@ssw0rd
+  - username: Coco
+    password: p@55w0rd
+
+ids:
+  - A
+  - B
+  - C
+
+tags:
+  - 2
+  - 4
+  - b
+
+google:
+  - username: string
+    password:
