@@ -15,8 +15,8 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "",
-	Short: "",
+	Use:   "config2go",
+	Short: "convert yaml, json, toml, etc. to go struct source code",
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		err = config.Setup(cfgFile, watch, sourceConfig, targetFile, targetPackage, tags)
 		if err != nil {

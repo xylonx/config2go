@@ -78,13 +78,13 @@ func mergeTags(tags1, tags2 string) []string {
 	t3 := make([]string, 0, len(t1)+len(t2))
 	tagMaps := make(map[string]bool)
 	for i := range t1 {
-		if _, ok := tagMaps[t1[i]]; !ok {
+		if _, ok := tagMaps[t1[i]]; !ok && t1[i] != "" {
 			tagMaps[t1[i]] = true
 			t3 = append(t3, t1[i])
 		}
 	}
 	for i := range t2 {
-		if _, ok := tagMaps[t2[i]]; !ok {
+		if _, ok := tagMaps[t2[i]]; !ok && t2[i] != "" {
 			tagMaps[t2[i]] = true
 			t3 = append(t3, t2[i])
 		}
