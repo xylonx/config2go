@@ -41,7 +41,7 @@ var (
 )
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "./config.default.yaml", "specify config file path")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "specify config file path")
 
 	// the config related flags
 	rootCmd.Flags().StringVarP(&watch, "watch", "w", "true", "whether listening file change event")
