@@ -5,9 +5,10 @@
 package config
 
 type Setting struct {
-	SourceConfig  string `mapstructure:"source_config" json:"source_config" yaml:"source_config" `
-	Tag           string `mapstructure:"tag" json:"tag" yaml:"tag" `
-	TargetFile    string `mapstructure:"target_file" json:"target_file" yaml:"target_file" `
-	TargetPackage string `mapstructure:"target_package" json:"target_package" yaml:"target_package" `
-	Watch         bool   `mapstructure:"watch" json:"watch" yaml:"watch" `
+	SourceConfig  string   `mapstructure:"source_config" json:"source_config" yaml:"source_config" `
+	Tag           string   `mapstructure:"tag" json:"tag" yaml:"tag" `
+	Tags          []string `mapstructure:"tags" json:"-"`
+	TargetFile    string   `mapstructure:"target_file" json:"target_file" yaml:"target_file" `
+	TargetPackage string   `mapstructure:"target_package" json:"target_package" yaml:"target_package" `
+	Watch         string   `mapstructure:"watch" json:"watch" yaml:"watch" `
 }
